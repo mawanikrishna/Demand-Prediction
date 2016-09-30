@@ -64,21 +64,29 @@ write.csv(x = xy_lag,file = "xy_lag.csv",row.names = F)
 ## we need to do this because if we remove any columns from the dataset then we will have to change the function...
 ## i think we will be removing few columns from the dataset from visual inspection
 #find the best correlating variables
-x_i=3
-x_i_3=138
-x_i_2=139
-x_i_1=140
-max_corr_names <- NULL
-for(i in 1:135)
-{
-  df <- xy_lag[c(x_i,x_i_3,x_i_2,x_i_1)]
-  max_corr_names[i] <- best_correlation(y = xy_lag$y,x_i_i = df)
-  x_i=x_i+1
-  x_i_3=x_i_3+abs(lag_try)
-  x_i_2=x_i_2+abs(lag_try)
-  x_i_1=x_i_1+abs(lag_try)
-}
+xy_cleaned=read.csv("xy_cleaned.csv")
+col_count=ncol(xy_cleaned)
+col_count
 
+x_i=3
+df=data.frame()
+max_corr_names <- NULL
+m=x_i+col_count-1
+
+for(i in 1:col_count-2)
+{
+  df = NULL
+  df[1]<- xy_lag[x_i]
+  n=abs(lag_try)
+
+    for(j in 1:n)
+    {   
+      df[j+1] =(xy_lag[m])
+      m=m+1
+    }
+  #max_corr_names[i] <- best_correlation(y = xy_lag$y,x_i_i = df) 
+  x_i=x_i+1
+}
 #subset the xy_lag dataframe with the columns with max correlation
 xy_best <- xy_lag[c("y",max_corr_names)]
 write.csv(x = xy_best,file = "xy_best.csv",row.names = F)
